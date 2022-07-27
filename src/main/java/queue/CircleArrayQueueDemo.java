@@ -6,7 +6,7 @@ public class CircleArrayQueueDemo {
 
     public static void main(String[] args) {
 
-        System.out.println("測試陣列模組環形佇列的案例");
+        System.out.println("測試陣列模擬環形佇列的案例");
 
         //創建一個佇列
         CircleArrayQueue circleArrayQueue = new CircleArrayQueue(4); // 說明設置4，其佇列的有效數據最大是3
@@ -63,9 +63,9 @@ public class CircleArrayQueueDemo {
 class CircleArrayQueue {
     private int maxSize; // 表示陣列的最大容量
     //front變數的含意做一個調整，front就指向佇列的第一個元素，也就是arr[front]就是佇列的第一個元素，初始值為0
-    private int front; // 佇列頭
+    private int front; // 佇列頭 (用來取出值)
     //rear變數的含意做一個調整，rear指向佇列的最後一個元素的後一個位置，因為希望空出一個空間作為約定，初始值為0
-    private int rear; // 佇列尾
+    private int rear; // 佇列尾 (用來插入值)
     private int[] arr; // 該數據用存放數據，模擬佇列
 
     //創建佇列的構造器
@@ -93,7 +93,7 @@ class CircleArrayQueue {
         }
         //直接將數據加入
         arr[rear] = n;
-        //將 rear 後移，這裡必須考慮取%
+        //將 rear 後移，這裡必須考慮取%(讓rear指針若可能到最後的位置時，讓其能返回到index 0 的位置，避免陣列超出範圍)
         rear = (rear + 1) % maxSize;
     }
 
@@ -105,8 +105,8 @@ class CircleArrayQueue {
             throw new RuntimeException("佇列為空，不能取數據");
         }
         //這裡需要分析出front是指向佇列的第一個元素
-        // 1. 先把front 對應的值保留到一個臨時變數
-        // 2. 將 front 後移，考慮取%
+        // 1. 先把front 對應的值保留到一個臨時變數 (讓front指針能往後移作準備)
+        // 2. 將 front 後移，考慮取%(讓front指針若可能到最後的位置時，讓其能返回到index 0 的位置，避免陣列超出範圍)
         // 3. 將臨時保存的變數返回
         int value = arr[front];
         front = (front + 1) % maxSize;
@@ -120,7 +120,7 @@ class CircleArrayQueue {
             System.out.println("佇列為空，沒有數據");
             return;
         }
-        // 思考點： 須從front開始遍歷，遍歷多少個元素
+        // 思考點： 須從front開始遍歷至當前佇列中有效的數據個數
         for (int i = front; i < front + size(); i++) {
             System.out.printf("arr[%d]=%d\n", i % maxSize, arr[i % maxSize]);
         }

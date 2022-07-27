@@ -5,11 +5,13 @@ public class SparseArray {
     public static void main(String[] args) {
         //創建一個原始的二維陣列 11 * 11
         //0: 表示沒有棋子，1表示黑子 2表示藍子
-        int chessArr1[][] = new int[11][11];
+        int chessArr1[][] = new int[11][21];
         chessArr1[1][2] = 1;
         chessArr1[2][3] = 2;
+        chessArr1[3][5] = 3;
         //輸出原始的二維陣列
         System.out.println("原始的二微陣列");
+        //二維陣列中取出一維陣列(Row)，再從一維陣列(Row)中取出個數(Column)的值
         for (int[] row : chessArr1) {
             for (int data : row) {
                 System.out.printf("%d\t", data);
@@ -19,8 +21,10 @@ public class SparseArray {
 
         //1: 先遍歷二維陣列 得到非0數據的個數
         int sum = 0;
+        //(範圍為"列"(Row)的長度)
         for (int i = 0; i < chessArr1.length; i++) {
-            for (int j = 0; j < chessArr1.length; j++) {
+            //(範圍為"欄"(Column)的長度)
+            for (int j = 0; j < chessArr1[0].length; j++) {
                 if (chessArr1[i][j] != 0) {
                     sum++;
                 }
@@ -32,8 +36,8 @@ public class SparseArray {
         //2.創建對應的稀疏陣列(sparseArr)
         int sparseArr[][] = new int[sum + 1][3];
         //給稀疏陣列賦值
-        sparseArr[0][0] = 11;
-        sparseArr[0][1] = 11;
+        sparseArr[0][0] = chessArr1.length;
+        sparseArr[0][1] = chessArr1[0].length;
         sparseArr[0][2] = sum;
 
         //遍歷二維陣列，將非0的值存放到稀疏陣列(sparseArr)中
