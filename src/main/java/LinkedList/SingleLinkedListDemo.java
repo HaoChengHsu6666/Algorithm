@@ -14,11 +14,18 @@ public class SingleLinkedListDemo {
         //創建需要給鏈表
         SingleLinkedList singleLinkedList = new SingleLinkedList();
         //加入
-        singleLinkedList.add(hero1);
-        singleLinkedList.add(hero2);
-        singleLinkedList.add(hero3);
-        singleLinkedList.add(hero4);
-        singleLinkedList.add(hero5);
+
+//        singleLinkedList.add(hero1);
+//        singleLinkedList.add(hero2);
+//        singleLinkedList.add(hero3);
+//        singleLinkedList.add(hero4);
+//        singleLinkedList.add(hero5);
+
+        singleLinkedList.addByOrder(hero5);
+        singleLinkedList.addByOrder(hero3);
+        singleLinkedList.addByOrder(hero1);
+        singleLinkedList.addByOrder(hero2);
+        singleLinkedList.addByOrder(hero4);
 
         singleLinkedList.list();
     }
@@ -31,7 +38,7 @@ class SingleLinkedList {
     private HeroNode head = new HeroNode(0, "", "");
 
     //添加節點到單向鏈表
-    //思考點...當不考慮編號順序時
+    //第一種方式：...當不考慮編號順序時
     //1. 找到當前鏈表的最後節點
     //2. 將最後這個節點的next 指向 新的節點
     public void add(HeroNode heroNode) {
@@ -50,6 +57,37 @@ class SingleLinkedList {
         //將最後這個節點的next 指向 新的節點
         temp.next = heroNode;
     }
+
+    //第二種方式：在添加英雄時，根據排名將英雄插入到指定位置
+    //(如果有這個排名，則添加失敗，並給出提示)
+    public void addByOrder(HeroNode heroNode){
+        //因為頭節點不能動，因此我們仍然通過一個輔助指針(變數)來幫助找到添加的位置
+        //因為單鏈表，因此我們找的temp是位於添加位置的前一個節點，否則插入不了
+        HeroNode temp = head;
+        boolean flag = false; // flag標誌添加的編號是否存在，默認為false
+        while(true){
+            if(temp.next == null){ // 說明temp已經在鏈表的最後
+                break;
+            }
+            if(temp.next.no > heroNode.no){ //位置找到，就在temp的後面插入
+                break;
+            }else if(temp.next.no == heroNode.no){ //說明希望添加的heroNode的號已經存在
+                flag = true; // 說明編號已存在
+                break;
+            }
+            temp = temp.next; // 後移，遍歷當前鏈表
+        }
+        //判斷flag的值
+        if(flag){
+            System.out.printf("準備插入的英雄編號%d已經存在了，無法加入\n", heroNode.no);
+        }else {
+            //插入到鏈表中，temp的後面
+            heroNode.next = temp.next;
+            temp.next = heroNode;
+        }
+
+    }
+
 
     //顯示鏈表(遍歷)
     public void list() {
