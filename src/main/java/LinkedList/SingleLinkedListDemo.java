@@ -13,19 +13,33 @@ public class SingleLinkedListDemo {
 
         //創建需要給鏈表
         SingleLinkedList singleLinkedList = new SingleLinkedList();
-        //加入
 
+//        無序加入
 //        singleLinkedList.add(hero1);
 //        singleLinkedList.add(hero2);
 //        singleLinkedList.add(hero3);
 //        singleLinkedList.add(hero4);
 //        singleLinkedList.add(hero5);
 
+//      加入後自動排序
         singleLinkedList.addByOrder(hero5);
         singleLinkedList.addByOrder(hero3);
         singleLinkedList.addByOrder(hero1);
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero4);
+
+        System.out.println("修改資料前~~~~~~~~~");
+        singleLinkedList.list();
+
+        //測試修改節點
+        HeroNode newHeroNode1 = new HeroNode(5, "富岡義勇", "水之呼吸~第十一式~靜如止水......");
+        HeroNode newHeroNode2 = new HeroNode(6, "蝴蝶忍", "蟲之呼吸~第一舞~嬉弄~");
+        HeroNode newHeroNode3 = new HeroNode(7, "宇髓天元", "音之呼吸~第五式~華麗爆炸!!!");
+        System.out.println("修改資料後.........");
+        singleLinkedList.update(newHeroNode1);
+        singleLinkedList.update(newHeroNode2);
+        singleLinkedList.update(newHeroNode3);
+
 
         singleLinkedList.list();
     }
@@ -89,6 +103,41 @@ class SingleLinkedList {
         }
 
     }
+
+    //修改節點的信息，根據no編號來修改，即no編號不能改
+    //說明
+    //1. 根據 newHeroNode 的 no 來修改即可
+    public void update(HeroNode newHeroNode){
+        //判斷是否為空
+        if(head.next == null){
+            System.out.println("鏈表為空 !");
+            return;
+        }
+        //找到需要修改的節點，根據no編號
+        //定義一個輔助變數
+        HeroNode temp = head.next;
+        boolean flag = false; // 表示是否找到該節點
+        while (true){
+            if(temp == null){
+               break; //已經完成遍歷
+            }
+            if(temp.no == newHeroNode.no){
+                //找到了 !
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        //最後，再根據flag判斷是否找到要修改的節點
+        if(flag){
+            temp.name = newHeroNode.name;
+            temp.skill = newHeroNode.skill;
+        }else { // 遍歷後仍無找到，回傳錯誤提示
+            System.out.printf("沒有找到遍號 %d 的節點，不能修改\n", newHeroNode.no);
+        }
+
+    }
+
 
 
     //顯示鏈表(遍歷)
