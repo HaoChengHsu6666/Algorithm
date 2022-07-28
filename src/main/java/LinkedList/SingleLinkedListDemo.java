@@ -4,6 +4,13 @@ public class SingleLinkedListDemo {
 
     public static void main(String[] args) {
 
+        /*
+        * 鏈表特色：
+        * 1) 以"節點"方式做儲存
+        * 2) 每個節點包含資料，下個節點
+        * 3) 各節點不一定是連續儲存
+        * */
+
         //先創建節點
         HeroNode hero1 = new HeroNode(1, "竈門炭志郎", "火之神神樂~碧羅天");
         HeroNode hero2 = new HeroNode(2, "竈門禰豆子", "血鬼術~爆血");
@@ -39,9 +46,15 @@ public class SingleLinkedListDemo {
         singleLinkedList.update(newHeroNode1);
         singleLinkedList.update(newHeroNode2);
         singleLinkedList.update(newHeroNode3);
-
-
         singleLinkedList.list();
+
+        //測試刪除節點
+        singleLinkedList.delete(1);
+        singleLinkedList.delete(2);
+        singleLinkedList.delete(3);
+        System.out.println("刪除資料後.........");
+        singleLinkedList.list();
+
     }
 
 }
@@ -105,7 +118,6 @@ class SingleLinkedList {
     }
 
     //修改節點的信息，根據no編號來修改，即no編號不能改
-    //說明
     //1. 根據 newHeroNode 的 no 來修改即可
     public void update(HeroNode newHeroNode){
         //判斷是否為空
@@ -137,6 +149,34 @@ class SingleLinkedList {
         }
 
     }
+
+    //刪除節點
+    // 1.head不能動，因此需要一個temp作為輔助節點，找到待刪除的節點的"前一個節點"
+    // 2.說明我們在比較時，是temp.next.no 和 需要刪除的節點的no做比較
+    public void delete(int no){
+        HeroNode temp = head;
+        boolean flag = false; // 標誌是否找到待刪除的節點
+        while (true){
+            if(temp.next == null){ // 說明temp已經在鏈表的最後
+                break;
+            }
+            if(temp.next.no == no){
+                //找到待刪除的節點的"前一個節點"temp
+                flag = true;
+                break;
+            }
+            temp = temp.next; //temp後移，遍歷
+        }
+        //判斷flag
+        if(flag){
+            //可刪除，欲刪除的節點無指標指向它，將會被Java垃圾機制回收
+            temp.next = temp.next.next;
+        }else {
+            System.out.printf("要刪除的 %d 節點不存在\n", no);
+        }
+    }
+
+
 
 
 
