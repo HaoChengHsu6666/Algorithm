@@ -69,20 +69,22 @@ class SingleLinkedList {
             if(temp.next == null){ // 說明temp已經在鏈表的最後
                 break;
             }
-            if(temp.next.no > heroNode.no){ //位置找到，就在temp的後面插入
+            if(temp.next.no > heroNode.no){ //位置找到，就在原temp和原temp.next之間做插入
                 break;
             }else if(temp.next.no == heroNode.no){ //說明希望添加的heroNode的號已經存在
                 flag = true; // 說明編號已存在
                 break;
             }
-            temp = temp.next; // 後移，遍歷當前鏈表
+            temp = temp.next; // 後移，繼續遍歷當前鏈表
         }
         //判斷flag的值
         if(flag){
             System.out.printf("準備插入的英雄編號%d已經存在了，無法加入\n", heroNode.no);
         }else {
             //插入到鏈表中，temp的後面
+            // (EX：原為1->3 若插入2 則將改為 2->3；白話說法，原1的下一個是指向3，若插入2，則讓2的下一個指向3)
             heroNode.next = temp.next;
+            // (EX：原為1->3 若插入2 則將改為 1->2；白話說法，原1的下一個是指向3，若插入2，則讓1的下一個指向2，最後形成1->2->3)
             temp.next = heroNode;
         }
 
